@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatRoom</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sign In Screen -->
+        <div class="screen signin-screen active">
+            <div class="animated-background">
+                <div class="floating-bubbles">
+                    <div class="bubble bubble-1"></div>
+                    <div class="bubble bubble-2"></div>
+                    <div class="bubble bubble-3"></div>
+                    <div class="bubble bubble-4"></div>
+                    <div class="bubble bubble-5"></div>
+                </div>
+            </div>
+            
+            <div class="auth-container">
+                <div class="logo-container">
+                    <div class="main-chat-icon">
+                        <svg viewBox="0 0 100 100" class="chat-bubble-svg">
+                            <path d="M20 15 C20 10, 25 5, 30 5 L70 5 C75 5, 80 10, 80 15 L80 45 C80 50, 75 55, 70 55 L35 55 L25 65 L25 55 C22.5 55, 20 52.5, 20 50 Z" 
+                                  fill="currentColor" stroke="none"/>
+                        </svg>
+                        <div class="chat-dots">
+                            <span class="dot dot-1"></span>
+                            <span class="dot dot-2"></span>
+                            <span class="dot dot-3"></span>
+                        </div>
+                    </div>
+                    <h1 class="app-title">ChatRoom</h1>
+                    <p class="app-subtitle">Connect • Chat • Share</p>
+                </div>
+
+                <div class="form">
+                    <h2>Welcome Back!</h2>
+                    <div class="form-input">
+                        <label>Username</label>
+                        <input type="text" id="signin-username" placeholder="Enter your username">
+                    </div>
+                    <div class="form-input">
+                        <label>Password</label>
+                        <input type="password" id="signin-password" placeholder="Enter your password">
+                    </div>
+                    <div class="form-input">
+                        <button id="signin-btn">Sign In</button>
+                    </div>
+                    <div class="form-input">
+                        <p class="switch-text">Don't have an account? <span id="go-to-signup">Sign Up</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sign Up Screen -->
+        <div class="screen signup-screen">
+            <div class="animated-background">
+                <div class="floating-bubbles">
+                    <div class="bubble bubble-1"></div>
+                    <div class="bubble bubble-2"></div>
+                    <div class="bubble bubble-3"></div>
+                    <div class="bubble bubble-4"></div>
+                    <div class="bubble bubble-5"></div>
+                </div>
+            </div>
+            
+            <div class="auth-container">
+                <div class="logo-container">
+                    <div class="main-chat-icon">
+                        <svg viewBox="0 0 100 100" class="chat-bubble-svg">
+                            <path d="M20 15 C20 10, 25 5, 30 5 L70 5 C75 5, 80 10, 80 15 L80 45 C80 50, 75 55, 70 55 L35 55 L25 65 L25 55 C22.5 55, 20 52.5, 20 50 Z" 
+                                  fill="currentColor" stroke="none"/>
+                        </svg>
+                        <div class="chat-dots">
+                            <span class="dot dot-1"></span>
+                            <span class="dot dot-2"></span>
+                            <span class="dot dot-3"></span>
+                        </div>
+                    </div>
+                    <h1 class="app-title">ChatRoom</h1>
+                    <p class="app-subtitle">Join the Conversation</p>
+                </div>
+
+                <div class="form">
+                    <h2>Create Account</h2>
+                    <div class="form-input">
+                        <label>Username</label>
+                        <input type="text" id="signup-username" placeholder="Choose a username">
+                    </div>
+                    <div class="form-input">
+                        <label>Password</label>
+                        <input type="password" id="signup-password" placeholder="Choose a password (min 4 characters)">
+                    </div>
+                    <div class="form-input">
+                        <label>Confirm Password</label>
+                        <input type="password" id="confirm-password" placeholder="Confirm your password">
+                    </div>
+                    <div class="form-input">
+                        <button id="signup-btn">Sign Up</button>
+                    </div>
+                    <div class="form-input">
+                        <p class="switch-text">Already have an account? <span id="go-to-signin">Sign In</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Screen -->
+        <div class="screen chat-screen">
+            <div class="header">
+                <div class="logo">
+                    <svg viewBox="0 0 100 100" class="header-chat-icon">
+                        <path d="M20 15 C20 10, 25 5, 30 5 L70 5 C75 5, 80 10, 80 15 L80 45 C80 50, 75 55, 70 55 L35 55 L25 65 L25 55 C22.5 55, 20 52.5, 20 50 Z" 
+                              fill="currentColor" stroke="none"/>
+                    </svg>
+                    Chatroom
+                </div>
+                <div class="user-info">
+                    <span id="current-user"></span>
+                    <button id="exit-chat">Exit</button>
+                </div>
+            </div>
+            <div class="messages"></div>
+            <div class="typebox">
+                <input type="text" id="message-input" placeholder="Type your message...">
+                <button id="send-message">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="socket.io.js"></script>
+    <script src="code.js"></script>
+</body>
+</html>

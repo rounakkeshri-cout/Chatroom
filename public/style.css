@@ -1,0 +1,861 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-primary: 0 4px 16px rgba(31, 38, 135, 0.2);
+    --text-primary: #2c3e50;
+    --text-light: rgba(255, 255, 255, 0.9);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f0f23;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.app {
+    width: 100%;
+    max-width: 450px;
+    height: 650px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: var(--shadow-primary);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: flex;
+}
+/* Add these new styles to your existing CSS */
+
+.verification-screen {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--secondary-gradient);
+    padding: 50px 40px;
+}
+
+.verification-text {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.secondary-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+}
+
+.info-message {
+    background: #3742fa;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+.pending-verification {
+    background: #ff9f43;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+/* Email validation styles */
+input[type="email"]:invalid {
+    border-color: #ff4757;
+}
+
+input[type="email"]:valid {
+    border-color: #2ed573;
+}
+
+/* Verification code input styling */
+#verification-code {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+/* Add these new styles to your existing CSS */
+
+.switch-text {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    margin: 0;
+}
+
+.switch-text span {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 700;
+    text-decoration: underline;
+    transition: all 0.2s ease;
+}
+
+.switch-text span:hover {
+    color: #f0f0f0;
+}
+
+.signin-screen,
+.signup-screen {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--primary-gradient);
+    padding: 50px 40px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info span {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.error-message {
+    background: #ff4757;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
+}
+
+.success-message {
+    background: #2ed573;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Update existing join-screen to match new screens */
+
+
+.join-screen {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: var(--primary-gradient);
+    padding: 50px 40px;
+}
+
+.form {
+    width: 100%;
+    max-width: 320px;
+}
+
+.form h2 {
+    color: white;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form-input {
+    margin-bottom: 20px;
+}
+
+.form-input label {
+    display: block;
+    color: var(--text-light);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-input input {
+    width: 100%;
+    padding: 16px 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    color: white;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.form-input input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.form-input input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.form-input button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--dark-gradient);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+}
+
+.form-input button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(44, 62, 80, 0.4);
+}
+
+.chat-screen {
+    flex-direction: column;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.header {
+    background: var(--dark-gradient);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header button {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.header button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: linear-gradient(135deg, rgba(248, 249, 250, 0.8) 0%, rgba(233, 236, 239, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 10px;
+}
+
+.update {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 6px 14px;
+    border-radius: 16px;
+    margin: 8px auto;
+    max-width: fit-content;
+    font-weight: 500;
+}
+
+.message {
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 15px;
+    line-height: 1.4;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 500;
+}
+
+.message .name {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.my-message {
+    align-self: flex-end;
+    background: var(--primary-gradient);
+    color: white;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.my-message .name {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.other-message {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.other-message .name {
+    color: #667eea;
+}
+
+.typebox {
+    padding: 18px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.typebox input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 20px;
+    font-size: 15px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.typebox input:focus {
+    border-color: #667eea;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.typebox button {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.typebox button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0;
+    }
+    
+    .app {
+        max-width: 100%;
+        height: 100vh;
+        border-radius: 0;
+    }
+    
+    .form {
+        max-width: 300px;
+    }
+    
+    .form h2 {
+        font-size: 24px;
+    }
+    
+    .messages {
+        padding: 16px;
+    }
+    
+    .message {
+        max-width: 90%;
+    }
+    
+    .typebox {
+        padding: 16px;
+    }
+}/* Add these new styles to your existing CSS */
+
+/* Reply functionality styles */
+.message {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.message:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.message.replying {
+    background: rgba(102, 126, 234, 0.1) !important;
+    border: 2px solid rgba(102, 126, 234, 0.3) !important;
+}
+
+.reply-indicator {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(102, 126, 234, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.message:hover .reply-indicator {
+    opacity: 1;
+}
+
+.reply-preview {
+    background: rgba(102, 126, 234, 0.1);
+    border-left: 3px solid #667eea;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    position: relative;
+}
+
+.reply-preview .reply-to {
+    color: #667eea;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.reply-preview .reply-text {
+    color: #666;
+    font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+.reply-preview .close-reply {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ff4757;
+    color: white;
+    border: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.reply-preview .close-reply:hover {
+    background: #ff3742;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.message.has-reply {
+    margin-top: 4px;
+}
+
+.message .reply-context {
+    background: rgba(0, 0, 0, 0.05);
+    border-left: 3px solid #667eea;
+    padding: 6px 10px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.my-message .reply-context {
+    background: rgba(255, 255, 255, 0.2);
+    border-left-color: rgba(255, 255, 255, 0.6);
+}
+
+.reply-context .reply-author {
+    color: #667eea;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.my-message .reply-context .reply-author {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.reply-context .reply-message {
+    color: #666;
+    font-style: italic;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.my-message .reply-context .reply-message {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Mobile swipe indicator */
+@media (max-width: 768px) {
+    .message::after {
+        content: '← Swipe to reply';
+        position: absolute;
+        right: -120px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(102, 126, 234, 0.8);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        white-space: nowrap;
+    }
+    
+    .message.swiping::after {
+        opacity: 1;
+        right: -100px;
+    }
+}
+
+/* Enhanced typebox for reply mode */
+.typebox.reply-mode {
+    border-top: 2px solid #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.typebox.reply-mode::before {
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.5), transparent);
+}
+
+/* Reply animation */
+@keyframes replyPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.message.reply-selected {
+    animation: replyPulse 0.3s ease;
+}
+/* Main Chat Icon Container */
+.main-chat-icon {
+  position: relative;
+  width: 80px; /* Change size here */
+  height: 80px; /* Change size here */
+  margin: 0 auto 20px;
+  color: #000000; /* Change icon color here - currently black */
+  animation: iconFloat 4s ease-in-out infinite;
+}
+
+/* Chat Bubble SVG Styling */
+.chat-bubble-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2)); /* Change shadow here */
+  animation: iconPulse 3s ease-in-out infinite alternate;
+}
+
+/* Animated Dots Container */
+.chat-dots {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  display: flex;
+  gap: 5px;
+}
+
+/* Individual Dots */
+.dot {
+  width: 5px; /* Change dot size here */
+  height: 5px; /* Change dot size here */
+  background: #667eea; /* Change dot color here */
+  border-radius: 50%;
+  animation: dotBounce 2s ease-in-out infinite;
+}
+
+.dot-1 {
+  animation-delay: 0s;
+}
+
+.dot-2 {
+  animation-delay: 0.3s;
+}
+
+.dot-3 {
+  animation-delay: 0.6s;
+}
+
+/* Icon Animations */
+@keyframes iconFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1deg);
+  }
+}
+
+@keyframes iconPulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes dotBounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Color Variations - Choose one */
+
+/* White Icon */
+.main-chat-icon.white {
+  color: #ffffff;
+}
+
+/* Blue Icon */
+.main-chat-icon.blue {
+  color: #667eea;
+}
+
+/* Purple Icon */
+.main-chat-icon.purple {
+  color: #764ba2;
+}
+
+/* Red Icon */
+.main-chat-icon.red {
+  color: #ff4757;
+}
+
+/* Green Icon */
+.main-chat-icon.green {
+  color: #2ed573;
+}
+
+/* Gradient Icon */
+.main-chat-icon.gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Size Variations */
+
+/* Small Icon */
+.main-chat-icon.small {
+  width: 60px;
+  height: 60px;
+}
+
+/* Large Icon */
+.main-chat-icon.large {
+  width: 120px;
+  height: 120px;
+}
+
+/* Extra Large Icon */
+.main-chat-icon.xl {
+  width: 150px;
+  height: 150px;
+}
+
+/* Design Variations */
+
+/* Glowing Effect */
+.main-chat-icon.glow {
+  filter: drop-shadow(0 0 20px currentColor);
+}
+
+/* 3D Effect */
+.main-chat-icon.shadow-3d {
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Rotating Animation */
+.main-chat-icon.rotate {
+  animation: iconRotate 4s linear infinite;
+}
+
+@keyframes iconRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Bouncing Animation */
+.main-chat-icon.bounce {
+  animation: iconBounce 2s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Custom Dot Colors */
+.chat-dots.rainbow .dot-1 {
+  background: #ff4757; /* Red */
+}
+
+.chat-dots.rainbow .dot-2 {
+  background: #2ed573; /* Green */
+}
+
+.chat-dots.rainbow .dot-3 {
+  background: #667eea; /* Blue */
+}
+
+/* No Animation */
+.main-chat-icon.static {
+  animation: none;
+}
+
+.main-chat-icon.static .chat-bubble-svg {
+  animation: none;
+}
+
+.main-chat-icon.static .dot {
+  animation: none;
+}
