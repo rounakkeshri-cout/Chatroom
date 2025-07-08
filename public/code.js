@@ -1,3 +1,5 @@
+const socket = io(); // NOT io('http://localhost:5500')
+
 ;(() => {
   const app = document.querySelector(".app")
   let currentUser = ""
