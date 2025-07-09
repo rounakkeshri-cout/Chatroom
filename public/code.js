@@ -1,4 +1,4 @@
-;(() => {
+(() => {
 const app = document.querySelector(".app")
 let currentUser = ""
 let socket
@@ -332,7 +332,6 @@ audio.preload = "metadata"
 const playBtn = audioContainer.querySelector(".play-pause-btn")
 const progressBar = audioContainer.querySelector(".voice-progress-bar")
 const durationSpan = audioContainer.querySelector(".voice-duration")
-
 let isPlaying = false
 
 playBtn.addEventListener("click", () => {
@@ -435,7 +434,6 @@ if (existingPreview) {
 
 const replyPreview = document.createElement("div")
 replyPreview.className = "reply-preview"
-
 const replyText = replyingTo.type === "voice" ? `🎤 Voice message (${replyingTo.duration}s)` : replyingTo.text
 
 replyPreview.innerHTML = `
@@ -500,7 +498,8 @@ messageElement.addEventListener("click", (e) => {
 let touchStartTime = 0
 let hasMoved = false
 
-messageElement.addEventListener("touchstart",
+messageElement.addEventListener(
+  "touchstart",
   (e) => {
     // Don't trigger reply if touching voice controls
     if (e.target.closest(".voice-controls")) {
@@ -518,7 +517,8 @@ messageElement.addEventListener("touchstart",
   { passive: true },
 )
 
-messageElement.addEventListener("touchmove",
+messageElement.addEventListener(
+  "touchmove",
   (e) => {
     if (!touchStartX || !touchStartY || touchTarget !== messageElement) return
 
@@ -541,7 +541,8 @@ messageElement.addEventListener("touchmove",
   { passive: false },
 )
 
-messageElement.addEventListener("touchend",
+messageElement.addEventListener(
+  "touchend",
   (e) => {
     const touchEndTime = Date.now()
     const touchDuration = touchEndTime - touchStartTime
@@ -617,7 +618,12 @@ loadSoundPreference()
 
 function initializeSocket() {
 try {
- socket = io(window.location.origin, {
+  // Use Railway URL in production, localhost in development
+  const serverUrl = window.location.hostname === 'localhost' 
+    ? "http://localhost:5500" 
+    : "https://join-chatroom.up.railway.app";
+
+  socket = io(serverUrl, {
     transports: ["polling", "websocket"],
     timeout: 10000,
     reconnection: true,
@@ -626,7 +632,7 @@ try {
     forceNew: true,
   })
 
-  console.log("Socket.IO connection attempt started")
+  console.log("Socket.IO connection attempt started to:", serverUrl)
 
   socket.on("connect", () => {
     console.log("✅ Connected to server with ID:", socket.id)
@@ -680,13 +686,11 @@ try {
 function showBrowserNotification(message) {
 if ("Notification" in window && Notification.permission === "granted") {
   const body = message.type === "voice" ? `🎤 Voice message (${message.duration}s)` : message.text
-
   const notification = new Notification(`New message from ${message.username}`, {
     body: body,
     icon: "/favicon.ico",
     tag: "chat-message",
   })
-
   setTimeout(() => notification.close(), 4000)
 }
 }
@@ -994,14 +998,17 @@ if (type === "my") {
   if (message.type === "voice") {
     const audioPlayer = createAudioPlayer(message.audioData, message.duration, message.id)
     messageContent = `
-      <div>${message.replyTo
-          ? `
+      <div>
+        ${
+          message.replyTo
+            ? `
           <div class="reply-context">
             <div class="reply-author">${message.replyTo.username}</div>
             <div class="reply-message">${message.replyTo.text}</div>
           </div>
         `
-          : ""}
+            : ""
+        }
         <div class="name">Me</div>
         <div class="voice-message">${audioPlayer.outerHTML}
         </div>
@@ -1009,14 +1016,17 @@ if (type === "my") {
     `
   } else {
     messageContent = `
-      <div>${message.replyTo
-          ? `
+      <div>
+        ${
+          message.replyTo
+            ? `
           <div class="reply-context">
             <div class="reply-author">${message.replyTo.username}</div>
             <div class="reply-message">${message.replyTo.text}</div>
           </div>
         `
-          : ""}
+            : ""
+        }
         <div class="name">Me</div>
         <div class="text">${message.text}</div>
       </div>
@@ -1039,14 +1049,17 @@ if (type === "my") {
   if (message.type === "voice") {
     const audioPlayer = createAudioPlayer(message.audioData, message.duration, message.id)
     messageContent = `
-      <div>${message.replyTo
-          ? `
+      <div>
+        ${
+          message.replyTo
+            ? `
           <div class="reply-context">
             <div class="reply-author">${message.replyTo.username}</div>
             <div class="reply-message">${message.replyTo.text}</div>
           </div>
         `
-          : ""}
+            : ""
+        }
         <div class="name">${message.username}</div>
         <div class="voice-message">${audioPlayer.outerHTML}
         </div>
@@ -1054,14 +1067,17 @@ if (type === "my") {
     `
   } else {
     messageContent = `
-      <div>${message.replyTo
-          ? `
+      <div>
+        ${
+          message.replyTo
+            ? `
           <div class="reply-context">
             <div class="reply-author">${message.replyTo.username}</div>
             <div class="reply-message">${message.replyTo.text}</div>
           </div>
         `
-          : ""}
+            : ""
+        }
         <div class="name">${message.username}</div>
         <div class="text">${message.text}</div>
       </div>
@@ -1233,5 +1249,4 @@ style.textContent = `
 }
 `
 document.head.appendChild(style)
-
 })()
