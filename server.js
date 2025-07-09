@@ -3,18 +3,19 @@ const path = require("path");
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
-    cors: {
-        origin: [
-            "http://localhost:5500",
-            "http://127.0.0.1:5500", 
-            "http://localhost:5501",
-            "http://127.0.0.1:5501",
-            "http://localhost:3000",
-            "http://127.0.0.1:3000"
-        ],
-        methods: ["GET", "POST"],
-        credentials: true
-    },
+   cors: {
+  origin: [
+    "http://localhost:5500",
+    "http://127.0.0.1:5500", 
+    "http://localhost:5501",
+    "http://127.0.0.1:5501",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://join-chatroom.up.railway.app"  // Add your Railway URL here
+  ],
+  methods: ["GET", "POST"],
+  credentials: true
+},
     allowEIO3: true
 });
 
@@ -151,7 +152,7 @@ io.on("connection", function (socket) {
     });
 });
 
-const PORT = 5500;
+const PORT = process.env.PORT || 5500;
 server.listen(PORT, () => {
     console.log(`Chatroom server is running on http://localhost:${PORT}`);
     console.log("Simple username/password authentication enabled");
