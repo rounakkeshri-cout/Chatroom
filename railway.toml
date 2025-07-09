@@ -1,5 +1,6 @@
 [build]
 builder = "nixpacks"
+buildCommand = "cd chatroom && npm install"
 
 [deploy]
 startCommand = "cd chatroom && node server.js"
