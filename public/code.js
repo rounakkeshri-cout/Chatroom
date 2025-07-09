@@ -618,16 +618,24 @@ loadSoundPreference()
 
 function initializeSocket() {
 try {
-  // Use Railway URL in production, localhost in development
-  const serverUrl = window.location.hostname === 'localhost' 
-    ? "http://localhost:5500" 
-    : "https://join-chatroom.up.railway.app";
+  // FIXED: Always connect to localhost:5500 in development, Railway URL in production
+  const isProduction = window.location.hostname.includes('railway.app') || 
+                      window.location.protocol === 'https:' ||
+                      window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+  
+  const serverUrl = isProduction 
+    ? "https://join-chatroom.up.railway.app" 
+    : "http://localhost:5500"
+
+  console.log("🔗 Connecting to:", serverUrl)
+  console.log("🌍 Current location:", window.location.href)
+  console.log("🏭 Is production:", isProduction)
 
   socket = io(serverUrl, {
     transports: ["polling", "websocket"],
     timeout: 10000,
     reconnection: true,
-    reconnectionAttempts: 3,
+    reconnectionAttempts: 5,
     reconnectionDelay: 2000,
     forceNew: true,
   })
