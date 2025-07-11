@@ -6,13 +6,11 @@ const http = require("http");
 const app = express();
 const server = http.createServer(app);
 
-// --- Socket.IO ---
+// --- Socket.IO Setup ---
 const io = require("socket.io")(server, {
   cors: {
     origin: [
-      "http://localhost:3000",
-      "http://127.0.0.1:3000",
-      "https://your-frontend.vercel.app", // Replace with your actual frontend domain
+      process.env.FRONTEND_URL || "http://localhost:3000", // Dynamic CORS origin
       "https://join-chatroom.up.railway.app"
     ],
     methods: ["GET", "POST"],
@@ -21,7 +19,7 @@ const io = require("socket.io")(server, {
   allowEIO3: true
 });
 
-// --- In-memory user data ---
+// --- In-memory Data ---
 const users = new Map();
 const connectedUsers = new Map();
 
@@ -29,13 +27,13 @@ const connectedUsers = new Map();
 app.use(cors());
 app.use(express.json());
 
-// Optional: serve static files if using a frontend in /public
+// --- Optional: Serve frontend if bundled in /public ---
 app.use(express.static(path.join(__dirname, "public")));
 
-// --- Health check ---
+// --- Health Check ---
 app.get("/", (req, res) => {
   res.json({
-    status: "ChatRoom server is running",
+    status: "✅ ChatRoom server is running",
     connectedUsers: connectedUsers.size,
     totalUsers: users.size,
     port: process.env.PORT || 5500,
@@ -45,25 +43,42 @@ app.get("/", (req, res) => {
 
 // --- Socket.IO Events ---
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
+  console.log("🔌 A user connected:", socket.id);
 
   socket.on("signup", ({ username, password }) => {
     if (users.has(username)) {
-      socket.emit("auth-response", { success: false, message: "Username already exists" });
-    } else {
-      users.set(username, password);
-      socket.emit("auth-response", { success: true, username, message: "Account created successfully!" });
+      return socket.emit("auth-response", {
+        success: false,
+        message: "Username already exists"
+      });
     }
+    users.set(username, password);
+    socket.emit("auth-response", {
+      success: true,
+      username,
+      message: "Account created successfully!"
+    });
   });
 
   socket.on("signin", ({ username, password }) => {
-    if (!users.has(username)) {
-      socket.emit("auth-response", { success: false, message: "Username not found" });
-    } else if (users.get(username) === password) {
-      socket.emit("auth-response", { success: true, username, message: "Welcome back!" });
-    } else {
-      socket.emit("auth-response", { success: false, message: "Incorrect password" });
+    const storedPassword = users.get(username);
+    if (!storedPassword) {
+      return socket.emit("auth-response", {
+        success: false,
+        message: "Username not found"
+      });
     }
+    if (storedPassword !== password) {
+      return socket.emit("auth-response", {
+        success: false,
+        message: "Incorrect password"
+      });
+    }
+    socket.emit("auth-response", {
+      success: true,
+      username,
+      message: "Welcome back!"
+    });
   });
 
   socket.on("newuser", (username) => {
@@ -89,12 +104,12 @@ io.on("connection", (socket) => {
       socket.broadcast.emit("update", `${username} left the chatroom`);
       io.emit("userCount", connectedUsers.size);
     }
-    console.log(`Disconnected: ${socket.id}`);
+    console.log("❌ Disconnected:", socket.id);
   });
 });
 
-// --- Server start ---
+// --- Server Start ---
 const PORT = process.env.PORT || 5500;
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Chatroom server running on port ${PORT}`);
 });
